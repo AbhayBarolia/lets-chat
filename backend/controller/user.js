@@ -78,9 +78,9 @@ exports.getLoginRequest= async function(req,res,next){
 exports.userLogin = async function (req,res,next) {
     try{
         
-        const mnumber = req.body.mnumber;
+        const email = req.body.email;
         const password = req.body.password;
-        const user = await User.findOne({ where: { mnumber:mnumber } });
+        const user = await User.findOne({ where: { email:email } });
         if(user!=null) 
         {   bcrypt.compare(password, user.dataValues.password,async (err, resolve)=>{
             if(err)

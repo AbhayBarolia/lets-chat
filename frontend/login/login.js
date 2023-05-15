@@ -27,5 +27,5 @@ async function loginUser(user){
     alert(res.data.message);    
     if(res.status==200){
         localStorage.setItem("token",res.data.token);
-    window.location.href = "/expense.html";}
+    window.location.href = "/chatscreen/chatscreen.html";}
 }

@@ -27,5 +27,6 @@ async function loginUser(user){
     alert(res.data.message);    
     if(res.status==200){
         localStorage.setItem("token",res.data.token);
+        localStorage.setItem("loggedIn",false);
     window.location.href = "/chatscreen/chatscreen.html";}
 }

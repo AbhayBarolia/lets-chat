@@ -17,9 +17,13 @@ exports.postMessage= async function (req, res, next){
     const token = req.headers.authorization;
     const decoded = jwt.verify(token,secret);
     userId=decoded.userId;
-    const message = req.body.message;
-    const created= await Chat.create({ 
+    const userData= await User.findByPk(userId);
+    if(userData){
+    let userName= userData.dataValues.userName;    
+    let message = req.body.message;
+    let created= await Chat.create({ 
         userId: userId,
+        userName: userName,
         message: message
     },{transaction:transaction});
     if(created)
@@ -31,8 +35,45 @@ exports.postMessage= async function (req, res, next){
         return res.status(500).json({ message: 'message not logged'}); 
     }
     }
+    else
+    {
+        return res.status(500).json({ message: 'message not logged'}); 
+    }
+    }
     catch(err){
         await transaction.rollback();
         res.status(500).json({message: err.message});
     }
 };
+
+
+exports.getMessage= async (req,res,next) =>{
+    try{
+        const token = req.headers.authorization;
+        const decoded = jwt.verify(token,secret);
+        userId=decoded.userId;
+        const userData= await User.findByPk(userId);
+        let userName= userData.dataValues.userName;
+
+        let messages = await Chat.findAll({ 
+            order: [
+            ['createdAt' , 'ASC'],
+            ],
+            attributes: ['userName', 'message']
+        });
+    if(messages){
+     for(let i =0;i<messages.length;i++){
+        if(messages[i].dataValues.userName==userName)
+        {
+            messages[i].dataValues.userName="You";
+        }
+    }
+    res.status(200).json({messages});
+    }
+    }
+    catch(err){
+        
+        res.status(500).json({message: err.message});
+    }
+    
+}

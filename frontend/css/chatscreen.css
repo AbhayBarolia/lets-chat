@@ -133,7 +133,7 @@ border-color: #ccc;
         margin-top: 20px;
         overflow:scroll;
         overflow-x:hidden;
-        max-height: 540px;
+        height: 540px;
     }
 
     .chatmessage{

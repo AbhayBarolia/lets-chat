@@ -4,6 +4,10 @@ const User = require('../models/user');
 
 const Chat = require('../models/chat');
 
+const groupUsers = require('../models/groupUseres');
+
+const {Op}= require('sequelize');
+
 require('dotenv').config();
 
 const jwt=require('jsonwebtoken');
@@ -16,7 +20,8 @@ exports.postMessage= async function (req, res, next){
     try{
     const token = req.headers.authorization;
     const decoded = jwt.verify(token,secret);
-    userId=decoded.userId;
+    let userId=decoded.userId;
+    let groupId= req.params.gid;
     const userData= await User.findByPk(userId);
     if(userData){
     let userName= userData.dataValues.userName;    
@@ -24,7 +29,8 @@ exports.postMessage= async function (req, res, next){
     let created= await Chat.create({ 
         userId: userId,
         userName: userName,
-        message: message
+        message: message,
+        groupId:groupId
     },{transaction:transaction});
     if(created)
     {   await transaction.commit();
@@ -47,8 +53,48 @@ exports.postMessage= async function (req, res, next){
 };
 
 
+
 exports.getMessage= async (req,res,next) =>{
     try{
+        const token = req.headers.authorization;
+        const decoded = jwt.verify(token,secret);
+        let userId=decoded.userId;
+        let groupId= req.params.gid;
+        const userData= await User.findByPk(userId);
+        let userName= userData.dataValues.userName;
+        let messages = await Chat.findAll({ 
+            where:{groupId:groupId},
+            order: [
+            ['createdAt' , 'ASC'],
+            ],
+            attributes: ['userName', 'message','id','groupId'],
+            limit:10
+                 
+        });
+    if(messages){
+     for(let i =0;i<messages.length;i++){
+        if(messages[i].dataValues.userName==userName)
+        {
+            messages[i].dataValues.userName="You";
+        }
+    }
+    res.status(200).json({messages});
+    }
+    }
+    catch(err){
+        
+        res.status(500).json({message: err.message});
+    }
+    
+}
+
+
+
+exports.getNewMessage= async (req,res,next) =>{
+    try{
+        let id=req.params.id;
+        console.log(id);
+        let groupId= req.params.gid;
         const token = req.headers.authorization;
         const decoded = jwt.verify(token,secret);
         userId=decoded.userId;
@@ -56,12 +102,17 @@ exports.getMessage= async (req,res,next) =>{
         let userName= userData.dataValues.userName;
 
         let messages = await Chat.findAll({ 
+            where:{
+                id :{[Op.gt]:id},
+                groupId:groupId
+            },
             order: [
             ['createdAt' , 'ASC'],
             ],
-            attributes: ['userName', 'message']
+            attributes: ['userName', 'message','id','groupId']
         });
     if(messages){
+        
      for(let i =0;i<messages.length;i++){
         if(messages[i].dataValues.userName==userName)
         {

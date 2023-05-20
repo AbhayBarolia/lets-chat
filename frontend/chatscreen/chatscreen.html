@@ -16,21 +16,39 @@
                     <a  href="/logout/logout.html">Logout</a>
                 </li>
             </ul>
+            <h1>Lets Chat</h1>
         </nav>
-    <div class="heading" >
-        <h1>Lets Chat</h1>
+        <div class="tab">
+            <div class="scroll1" id="scroll1">
+                <form id="form1" class="form1">
+                    <input type="text" id="name" name="name" required >
+                    <input type="submit" class="sub" value="Create New Group" >
+                    </form><br><br>
+        <ul class="group-list" id="grouplist">
+            
+        </ul>
     </div>
+        </div>
+        <div class="main">
+
+    <div class="heading" >
+        
+    </div>
+    
+    <h4 id ="group-name-tag">Lets Chat</h4>
+    
     <div class="scroll" id="scroll">
+       
     <ul class="chatlist" id="chatlist">
+      
     </ul>
     </div>
-    <form id="form">
+    <form id="form" class="form">
         <br>
         <label for="message" >Type Message: </label>
         <input type="text" id="message" name="message" required >
         <input type="submit" class="sub" value="Send" ><br>
         </form>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
     <script src="./chatscreen.js"></script>
 </body>

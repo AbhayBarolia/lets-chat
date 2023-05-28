@@ -1,33 +1,3 @@
-html {
-    box-sizing: border-box;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-  }
-
-body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-family: "Roboto", sans-serif;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-  }
-  
-.tab {
-    height: 100%;
-    width: 300px;
-    position: fixed;
-    z-index: 1;
-    top: 43px;
-    left: 0;
-    background-color: white;
-    overflow-x: hidden;
-    padding-top: 20px;
-  }
-
 .main-header-nav {
     position: relative;
     width: 100%;
@@ -73,10 +43,10 @@ body {
 h1{
     color: black;
 }
-h4{
+h2{
     color: white;
-    margin-left: 350px;
-    text-align: left;
+   
+    text-align: center;
     
 }
 
@@ -84,22 +54,28 @@ h1:hover{
     color: rgb(109, 0, 0)
     
 }
+
+h6{
+    color: black;
+   
+    text-align: center;
+    
+}
+
 hr{
     border: 3px solid black;
         border-radius: 2px;
 }
 #form{
     position: relative;
-    float:left;
+    float:center;
     align-self: center;
     align-items: center;
     background-color:white;
-    margin: 0px;
-    margin-left: 350px;
     display: flex;
     flex-direction: row;
-    justify-content:left; 
-    text-align: left;
+    justify-content:center;  
+    text-align: center;
     color: white;
     bottom: 0;
 } 
@@ -116,13 +92,6 @@ margin-left: 5px;
 margin-right:5px ;
 }
 
-#message {
-width:50%;
-border-radius: 1px;
-border-color: #ccc;
-
-
-}  
 
 .sub{
     color: white;
@@ -144,29 +113,18 @@ border-color: #ccc;
     border: 2px solid black;
 }
 
-
-.form1{
-	display: block;
-	padding: 10px 20px;
-	text-decoration: none;
-	font-weight: bold;
-	color: #000000;
-    margin-left: 20px;
- }
    
-.chatlist{   
-        position: relative;  
-        align-self: center;
-        align-items: center;
-        display: block; 
-        text-align: center; 
-        padding: 10px;
-        border-radius: 5px;
-        border: 2px solid black;
-        background-color: grey;
-        margin-left: 350px;
-        margin-right: 50px;
-        
+.memberlist{   
+    align-self: center;
+    align-items: center;
+    display: block; 
+    text-align: centre;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid black;
+    background-color: grey;
+    margin-left: 400px;
+        margin-right: 400px;
     }
 
     .scroll{
@@ -174,71 +132,59 @@ border-color: #ccc;
         overflow:scroll;
         overflow-x:hidden;
         height: 540px;
+        
     }
 
-    .msg{
-        padding: 2px;
+    .usr{
+        padding: 10px;
         text-align: left;
-        overflow-wrap: break-word;
-        font-style: oblique;
-        font-size: medium;
-        font-family: 'Arial Narrow Bold', sans-serif;
+        font-size:large;
+        font-family:  sans-serif;
         color: white;
         list-style-type: none;
+        margin-left: 10px;
     }
 
-    .btn{
-        
-        color:white;
-        align-self: left;
-        align-items: center;
-        text-align: left;
-        overflow-wrap: break-word;
-        padding: 10px;
-        border-radius: 5px;
-        margin-left: 0px;
-        border: 2px solid #ccc;
-        font-weight: bold;
-        font-family:sans-serif;
-        background-color:black ;
-        width:225px;
-        
-    }
 
-    .group-name{
-        overflow-wrap: break-word;
-        text-align: left;
-        list-style-type: none;
-    }
-
-  
-      
-    .scroll1{
-        
-        overflow:scroll;
-        overflow-x:hidden;
-        height: 100%;
-    }
-
-    
-
-    .gsbtn{
-
+    .rembtn{
+        position: absolute;
+        right: 500px;
         color: white;
         align-self: center;
-        align-items: left;
-        text-align:right;
-        padding: 10px;
-        border-radius: 5px;
+        align-items: center;
+        text-align: centre;
+        padding: 5px;
+        border-radius: 2px;
         border: 2px solid white;
         font-weight: bold;
         font-family:sans-serif;
         background-color: black;
-        margin-left: 10px;
-        margin-right: 10px;
     }
     
-    .gsbtn:hover {
+    .rembtn:hover {
+       
+        text-decoration: underline;
+        background-color:white;
+        color: black;
+        border: 2px solid black;
+    }
+
+    .admbtn{
+        position: absolute;
+        right: 600px;
+        color: white;
+        align-self: center;
+        align-items: center;
+        text-align: centre;
+        padding: 5px;
+        border-radius: 2px;
+        border: 2px solid white;
+        font-weight: bold;
+        font-family:sans-serif;
+        background-color: black;
+    }
+    
+    .admbtn:hover {
         text-decoration: underline;
         background-color:white;
         color: black;

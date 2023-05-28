@@ -37,7 +37,7 @@ exports.createGroup= async function(req,res,next){
                 groupName:groupName,
                 userId:userId,
                 isAdmin:true
-            });
+            },{transaction:transaction});
             if(added){
                 await transaction.commit();
                 res.status(200).json({groupCreated});

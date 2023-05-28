@@ -15,8 +15,9 @@
                 <li class="main-header-link">
                     <a  href="/logout/logout.html">Logout</a>
                 </li>
+                <h1>Lets Chat</h1>
             </ul>
-            <h1>Lets Chat</h1>
+           
         </nav>
         <div class="tab">
             <div class="scroll1" id="scroll1">
@@ -35,20 +36,20 @@
         
     </div>
     
-    <h4 id ="group-name-tag">Lets Chat</h4>
+    <h4 id ="group-name-tag"></h4>
     
     <div class="scroll" id="scroll">
-       
     <ul class="chatlist" id="chatlist">
-      
+        
     </ul>
     </div>
+    <br>
     <form id="form" class="form">
-        <br>
-        <label for="message" >Type Message: </label>
-        <input type="text" id="message" name="message" required >
-        <input type="submit" class="sub" value="Send" ><br>
-        </form>
+    <label for="message" >Message: </label>
+    <input type="text" id="message" name="message" required >
+    <input type="submit" class="sub" value="Send" >
+    <input type="button" class="gsbtn" id="gsbtn" value="Setting"> 
+    </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
     <script src="./chatscreen.js"></script>
 </body>

@@ -23,6 +23,8 @@ const chatRoutes= require('./backend/routes/chat');
 
 const groupRoutes= require('./backend/routes/group');
 
+const groupSettingRoutes= require('./backend/routes/groupsettings');
+
 require('dotenv').config();
 
 const app= express();
@@ -37,6 +39,8 @@ app.use('/user',userRoutes);
 app.use('/chat',chatRoutes);
 
 app.use('/group',groupRoutes);
+
+app.use('/groupsettings',groupSettingRoutes);
 
 app.use((req,res)=>{
     const newPath=path.join(__dirname,`./frontend/${req.url}`);

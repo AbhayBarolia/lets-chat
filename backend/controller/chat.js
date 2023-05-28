@@ -93,7 +93,6 @@ exports.getMessage= async (req,res,next) =>{
 exports.getNewMessage= async (req,res,next) =>{
     try{
         let id=req.params.id;
-        console.log(id);
         let groupId= req.params.gid;
         const token = req.headers.authorization;
         const decoded = jwt.verify(token,secret);
@@ -128,3 +127,25 @@ exports.getNewMessage= async (req,res,next) =>{
     }
     
 }
+
+
+exports.getAdmin = async (req,res,next)=>{
+try{
+    let groupId= req.params.gid;
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token,secret);
+    userId=decoded.userId;
+    let admin = await groupUsers.findOne({where: {userId:userId,groupId:groupId}});
+    if(admin)
+    {
+        res.status(200).json({isAdmin: admin.dataValues.isAdmin});
+    }
+    else
+    {
+        res.status(500);
+    }
+}
+catch(err){
+    res.status(500).json({message:err.message});
+}
+};

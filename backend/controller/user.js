@@ -241,3 +241,16 @@ exports.newPasswordRequest= async function (req,res,next){
     }
 }
 
+exports.userName = async function (data){
+    try{
+        const token = data;
+        const decoded = jwt.verify(token,secret);
+        let userId=decoded.userId;
+        const userData= await User.findByPk(userId);
+        if(userData){
+        return userData.userName;}
+    }
+    catch(err){
+        console.log(err);
+    }
+}

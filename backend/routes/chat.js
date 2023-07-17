@@ -10,7 +10,7 @@ routes.get('/message/:gid',chat.getMessage);
 
 routes.get('/admin/:gid',chat.getAdmin);
 
-routes.post('/message/:gid',chat.postMessage);
+//routes.post('/message/:gid',chat.postMessage);
 
 
 

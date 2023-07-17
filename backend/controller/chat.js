@@ -15,17 +15,17 @@ const sequelize = require('../database/database');
 const secret = process.env.SECRET_KEY;
 
 
-exports.postMessage= async function (req, res, next){
+exports.postMessage= async function (data){
     const transaction = await sequelize.transaction();
     try{
-    const token = req.headers.authorization;
+    const token = data.userId;
     const decoded = jwt.verify(token,secret);
     let userId=decoded.userId;
-    let groupId= req.params.gid;
+    let groupId= data.groupId;
     const userData= await User.findByPk(userId);
     if(userData){
     let userName= userData.dataValues.userName;    
-    let message = req.body.message;
+    let message = data.message;
     let created= await Chat.create({ 
         userId: userId,
         userName: userName,
@@ -34,21 +34,19 @@ exports.postMessage= async function (req, res, next){
     },{transaction:transaction});
     if(created)
     {   await transaction.commit();
-        return res.status(201).json({ message: 'message logged'});
     }
     else{
         await transaction.rollback();
-        return res.status(500).json({ message: 'message not logged'}); 
     }
     }
     else
     {
-        return res.status(500).json({ message: 'message not logged'}); 
+        await transaction.rollback();
     }
     }
     catch(err){
+        console.log(err);
         await transaction.rollback();
-        res.status(500).json({message: err.message});
     }
 };
 
@@ -65,7 +63,7 @@ exports.getMessage= async (req,res,next) =>{
         let messages = await Chat.findAll({ 
             where:{groupId:groupId},
             order: [
-            ['createdAt' , 'ASC'],
+            ['createdAt' , 'DESC'],
             ],
             attributes: ['userName', 'message','id','groupId'],
             limit:10

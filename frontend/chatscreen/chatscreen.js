@@ -10,10 +10,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     
     if(flag=="true"){
         let msg = "Select a group to start chatting";
-        
         showData(msg);
         getGroups();
-       
          document.getElementById("form").style.visibility = "hidden";
             
         
@@ -136,12 +134,30 @@ window.addEventListener("submit", (event)=>{
 
 
 
+
+
+        
+      document.getElementById('file').addEventListener('change', function() {
+        const socket= io("http://localhost:3000");
+        
+        const reader = new FileReader();
+        reader.onload = function() {
+          const bytes = new Uint8Array(this.result);
+          socket.emit('image', bytes);
+        };
+        reader.readAsArrayBuffer(this.files[0]);
+        socket.on('image', image => {
+            const img = new Image();
+            img.src = `data:image/jpg;base64,${image}`; 
+            console.log(img.src);
+        });
+      }, false);
+
       window.addEventListener("click", (event) => {
         if (event.target.className == "gsbtn") {
          window.location.href='/groupSettings/groupsettings.html'; 
         }
       });
-
 
 
 
@@ -169,12 +185,20 @@ window.addEventListener("submit", (event)=>{
    
       async function sendMessage(message)
       {try{
-        let obj={message:message};
         let groupId=localStorage.getItem("groupId");
-        let send=  await axios.post("http://localhost:3000/chat/message/"+groupId,obj, config);
+        let id = localStorage.getItem("lastMessageId");
+        let obj={message:message,
+                 groupId:groupId,
+                userId:localStorage.getItem("token")};
+        const socket= io("http://localhost:3000");
+        let send = await socket.emit("new message",obj);
         if(send)
-        {
+        {   
             document.getElementById("message").value="";
+            socket.on("emit message",async(obj)=>{
+                let str= `${obj.userName} : ${obj.message}`;
+                showData(str);
+            });
         }
         else{
             alert("Something went wrong, please try again");
@@ -192,13 +216,15 @@ window.addEventListener("submit", (event)=>{
             let message = await axios.get("http://localhost:3000/chat/message/"+gid, config);
             if (message)
                 {       
-                    for(let i=0;i<message.data.messages.length;i++){
+                    for(let i=message.data.messages.length-1;i>=0;i--){
                         let str= `${message.data.messages[i].userName} : ${message.data.messages[i].message}`;
                         showData(str);
                     } 
-                    let id=message.data.messages[message.data.messages.length-1].id;
+                    let id=message.data.messages[0].id;
                     localStorage.setItem("lastMessageId",id);  
+                    sendMessage("Joined");
                 }
+               
             }
         catch(err){
 
@@ -207,14 +233,15 @@ window.addEventListener("submit", (event)=>{
         }    
     }  
 
-
-    let getNewMessage = setInterval(async()=>{
+  
+  /*  let getNewMessage = setInterval(async()=>{
         try{
                 let id = localStorage.getItem("lastMessageId");
                 let groupId = localStorage.getItem("groupId");
                 
                 if(id!=null && groupId!=null){
                 let chatMessages = await axios.get("http://localhost:3000/chat/message/"+groupId+"/"+id, config);
+                
                 
                 if(chatMessages)
                 {   
@@ -243,7 +270,7 @@ window.addEventListener("submit", (event)=>{
             alert(err.message);
         
         }        
-    },1000);
+    },1000);*/
 
 
     function showData(str)
